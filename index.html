@@ -1173,6 +1173,9 @@
         const sceneImage =
             document.getElementById("sceneImage");
 
+        const frontCard =
+            document.querySelector(".card-front");
+
         const backCard =
             document.getElementById("cardBack");
 
@@ -1190,14 +1193,10 @@
            BACKGROUND COLORS
         =========================================== */
 
-        const backColors = [
-
-            "#ffffff",
-
-            "#f1e4d2",
-
-            "#d8d8d8"
-
+        const cardColors = [
+            "#ffffff", // White
+            "#f1e4d2", // Beige
+            "#d8d8d8"  // Grey
         ];
 
 
@@ -1232,8 +1231,16 @@
 
             /* Back color */
 
+            /* Card color */
+
+            const color =
+                cardColors[index % 3];
+
+            frontCard.style.background =
+                color;
+
             backCard.style.background =
-                backColors[index % 3];
+                color;
 
 
             /* Progress */
