@@ -644,6 +644,35 @@
 
         }
 
+        /* ==========================================
+        BLESSING
+        ========================================== */
+
+        .blessing {
+            width: 92%;
+
+            margin-bottom: 8px;
+
+            padding: 5px 8px;
+
+            text-align: center;
+
+            font-family: "ZCOOL KuaiLe", sans-serif;
+
+            font-size: 15px;
+
+            line-height: 1.45;
+
+            color: #5b3a24;
+
+            
+
+            border-radius: 10px;
+
+            box-sizing: border-box;
+        }
+
+
     </style>
 
 </head>
@@ -754,11 +783,7 @@
 
                     <!-- TITLE -->
 
-                    <div
-                        class="back-title"
-                    >
-                        圣经名场面
-                    </div>
+                    <div class="blessing" id="blessing"></div>
 
 
                     <!-- IMAGE -->
@@ -1182,13 +1207,9 @@
 
         function showCard(index) {
 
-            const currentCard =
-                cards[index];
+            const currentCard = cards[index];
 
-
-            /* ------------------------------
-               FRONT
-            ------------------------------ */
+            /* Front */
 
             verse.textContent =
                 currentCard.text;
@@ -1197,54 +1218,38 @@
                 currentCard.reference;
 
 
-            /* ------------------------------
-               BACK IMAGE
-            ------------------------------ */
+            /* Back blessing */
+
+            blessing.textContent =
+                currentCard.blessing;
+
+
+            /* Back image */
 
             sceneImage.src =
                 `images/image${index + 1}.png`;
 
-            sceneImage.alt =
-                `${currentCard.reference} 圣经名场面`;
 
-
-            /* ------------------------------
-            BACKGROUND
-            ------------------------------ */
-
-            const cardColor =
-                backColors[index % 3];
-
-            document.getElementById("cardFront").style.background =
-                cardColor;
+            /* Back color */
 
             backCard.style.background =
-                cardColor;
+                backColors[index % 3];
 
 
-            /* ------------------------------
-               PROGRESS
-            ------------------------------ */
+            /* Progress */
 
             progress.textContent =
                 `${index + 1} / ${cards.length}`;
 
 
-            /* ------------------------------
-               ALWAYS SHOW FRONT
-            ------------------------------ */
+            /* Always return to front */
 
-            card.classList.remove(
-                "flipped"
-            );
+            card.classList.remove("flipped");
 
 
-            /* ------------------------------
-               RESIZE VERSE
-            ------------------------------ */
+            /* Resize verse */
 
             adjustVerseSize();
-
         }
 
 
