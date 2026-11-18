@@ -1,838 +1,779 @@
-```html
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
+
     <meta charset="UTF-8">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
 
-    <title>Bible Card Preview</title>
+    <title>Bible Card</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- ==========================================
+         GOOGLE FONTS
+    =========================================== -->
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
 
     <link
         href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&family=ZCOOL+KuaiLe&display=swap"
         rel="stylesheet">
 
+
+    <!-- ==========================================
+         CSS
+    =========================================== -->
+
     <style>
 
+        /* ==========================================
+           RESET
+        =========================================== */
+
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
         }
+
+
+        html,
+        body {
+
+            width: 100%;
+            min-height: 100%;
+
+        }
+
 
         body {
-            min-height: 100vh;
-            background: #eee7dc;
 
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            background: #f7f2eb;
 
             font-family:
-                "ZCOOL KuaiLe",
                 "Nunito",
                 sans-serif;
 
-            color: #4b3b32;
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            min-height: 100vh;
+
+            padding: 30px 15px;
+
+            color: #4b4038;
+
         }
 
-        .container {
-            width: min(92vw, 600px);
+
+        /* ==========================================
+           MAIN CONTAINER
+        =========================================== */
+
+        .page {
+
+            width: 100%;
+
+            max-width: 430px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: center;
+
+            gap: 20px;
+
+        }
+
+
+        /* ==========================================
+           TITLE
+        =========================================== */
+
+        .title {
+
             text-align: center;
+
+            font-family:
+                "ZCOOL KuaiLe",
+                sans-serif;
+
+            font-size: 26px;
+
+            color: #65564b;
+
+            letter-spacing: 1px;
+
         }
 
-        /* =========================
-           Title
-        ========================= */
-
-        h1 {
-            font-size: 24px;
-            margin-bottom: 8px;
-            letter-spacing: 2px;
-        }
 
         .subtitle {
-            font-family: Arial, sans-serif;
-            font-size: 13px;
-            color: #8c7b6d;
-            margin-bottom: 25px;
-        }
-
-        /* =========================
-           Card
-        ========================= */
-
-        .card-wrapper {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 22px;
-        }
-
-        .card {
-            width: min(60vw, 216px);
-            aspect-ratio: 5.4 / 9;
-
-            background: linear-gradient(
-                145deg,
-                #ffffff 0%,
-                #f1e4d2 50%,
-                #d8d8d8 100%
-            );
-
-            border-radius: 8px;
-
-            position: relative;
-
-            padding: 28px 24px;
-
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-
-            box-shadow:
-                0 8px 25px rgba(70, 50, 30, 0.15);
-
-            border: 1px solid #dfd0bd;
-
-            overflow: hidden;
-
-            transition:
-                opacity 0.25s ease,
-                transform 0.25s ease;
-        }
-
-        /*
-            Decorative corner
-        */
-
-        .card::before {
-            content: "";
-            position: absolute;
-
-            width: 55px;
-            height: 55px;
-
-            top: -28px;
-            left: -28px;
-
-            border-radius: 50%;
-
-            border: 1px solid rgba(120, 90, 60, 0.2);
-        }
-
-        .card::after {
-            content: "";
-            position: absolute;
-
-            width: 55px;
-            height: 55px;
-
-            bottom: -28px;
-            right: -28px;
-
-            border-radius: 50%;
-
-            border: 1px solid rgba(120, 90, 60, 0.2);
-        }
-
-        /* =========================
-           Card Number
-        ========================= */
-
-        .card-number {
-            position: absolute;
-
-            top: 10px;
-            left: 14px;
-
-            font-family: Arial, sans-serif;
-
-            font-size: 10px;
-            letter-spacing: 1px;
-
-            color: #a18e7c;
-        }
-
-        /* =========================
-           Reference
-        ========================= */
-
-        .reference {
-            font-size: 13px;
-            letter-spacing: 1px;
-
-            color: #806b58;
-
-            margin-bottom: 13px;
-        }
-
-        /* =========================
-           Verse
-        ========================= */
-
-        .verse {
-            font-size: 21px;
-            line-height: 1.65;
-            font-weight: 500;
-
-            width: 90%;
-
-            text-align: center;
-
-            margin-bottom: 12px;
-
-            transition: font-size 0.2s ease;
-        }
-
-        /* =========================
-           Blessing
-        ========================= */
-
-        .blessing {
-            font-size: 11px;
-
-            line-height: 1.6;
-
-            color: #927d6a;
-
-            max-width: 85%;
-        }
-
-        /* =========================
-           Theme
-        ========================= */
-
-        .theme {
-            position: absolute;
-
-            bottom: 9px;
-            left: 0;
-            right: 0;
-
-            font-family: Arial, sans-serif;
-
-            font-size: 9px;
-
-            color: #a18e7c;
-
-            letter-spacing: 1px;
-        }
-
-        /* =========================
-           Progress
-        ========================= */
-
-        .progress {
-            font-family: Arial, sans-serif;
 
             font-size: 13px;
 
-            color: #806f60;
+            color: #9a8d82;
 
-            margin-bottom: 15px;
+            margin-top: -12px;
+
         }
 
-        /* =========================
-           Buttons
-        ========================= */
 
-        .buttons {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        button {
-            border: none;
-
-            padding: 11px 20px;
-
-            border-radius: 20px;
-
-            background: #8d7058;
-
-            color: white;
-
-            cursor: pointer;
-
-            font-size: 13px;
-
-            transition:
-                transform 0.15s ease,
-                background 0.15s ease;
-        }
-
-        button:hover {
-            background: #765b46;
-            transform: translateY(-2px);
-        }
-
-        button:disabled {
-            background: #c9bfb5;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .next-button {
-            padding: 12px 30px;
-
-            font-size: 14px;
-
-            background: #73553f;
-
-            margin-top: 10px;
-        }
-
-        .next-button:hover {
-            background: #5e4432;
-        }
-
-        /* =========================
-           Mobile
-        ========================= */
-
-        @media (max-width: 500px) {
-
-            body {
-                align-items: flex-start;
-                padding-top: 40px;
-            }
-
-            .container {
-                width: 94vw;
-            }
-
-            .card {
-                width: 90vw;
-                padding: 24px 18px;
-            }
-
-            .verse {
-                font-size: 16px;
-            }
-
-            .blessing {
-                font-size: 10px;
-            }
-
-            .buttons button {
-                padding: 10px 15px;
-            }
-        }
-
-        .card.gradient-1 {
-            background: linear-gradient(
-                145deg,
-                #ffffff 0%,
-                #f1e4d2 50%,
-                #d8d8d8 100%
-            );
-        }
-
-        .card.gradient-2 {
-            background: linear-gradient(
-                145deg,
-                #f1e4d2 0%,
-                #d8d8d8 50%,
-                #ffffff 100%
-            );
-        }
-
-        .card.gradient-3 {
-            background: linear-gradient(
-                145deg,
-                #d8d8d8 0%,
-                #ffffff 50%,
-                #f1e4d2 100%
-            );
-        }
-
-        .back-card.bg-white {
-            background: #ffffff;
-        }
-
-        .back-card.bg-beige {
-            background: #f1e4d2;
-        }
-
-        .back-card.bg-grey {
-            background: #d8d8d8;
-        }
+        /* ==========================================
+           CARD AREA
+        =========================================== */
 
         .card-scene {
-            width: 216px;
-            aspect-ratio: 5.4 / 9;
 
-            perspective: 1000px;
-        }
-
-
-        .card {
-            width: 100%;
-            height: 100%;
-
-            position: relative;
-
-            transform-style: preserve-3d;
-
-            transition:
-                transform 0.65s cubic-bezier(0.4, 0.2, 0.2, 1);
-
-            cursor: pointer;
-        }
-
-
-        /* 点击后 */
-
-        .card.flipped {
-            transform: rotateY(180deg);
-        }
-
-
-        /* =========================
-        Front & Back
-        ========================= */
-
-        .card-face {
-
-            position: absolute;
-
-            width: 100%;
-            height: 100%;
-
-            top: 0;
-            left: 0;
-
-            border-radius: 10px;
-
-            overflow: hidden;
-
-            backface-visibility: hidden;
-            -webkit-backface-visibility: hidden;
-
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-
-            box-shadow:
-                0 8px 25px rgba(0, 0, 0, 0.15);
-        }
-
-
-        /* =========================
-        FRONT
-        ========================= */
-
-        .card-front {
-
-            background: linear-gradient(
-                145deg,
-                #ffffff 0%,
-                #f1e4d2 50%,
-                #d8d8d8 100%
+            width: min(
+                100%,
+                320px
             );
 
-            justify-content: center;
-        }
-
-
-        /* =========================
-        BACK
-        ========================= */
-
-        .card-back {
-
-            transform: rotateY(180deg);
-
-            justify-content: flex-start;
-
-            padding: 25px 16px 15px;
-        }
-
-
-        /* =========================
-        Hole
-        ========================= */
-
-        .card-hole {
-
-            position: absolute;
-
-            top: 10px;
-            left: 50%;
-
-            transform: translateX(-50%);
-
-            width: 11px;
-            height: 11px;
-
-            border-radius: 50%;
-
-            background: #eeeeee;
-
-            box-shadow:
-                inset 0 1px 3px rgba(0, 0, 0, 0.25);
-
-            z-index: 5;
-        }
-
-
-        /* =========================
-        Back Title
-        ========================= */
-
-        .back-title {
-
-            margin-top: 10px;
-
-            font-family:
-                "ZCOOL KuaiLe",
-                sans-serif;
-
-            font-size: 20px;
-
-            color: #5d4938;
-
-            letter-spacing: 1px;
-        }
-
-
-        /* =========================
-        Back Image
-        ========================= */
-
-        .back-image {
-
-            flex: 1;
-
-            width: 100%;
-
-            display: flex;
-
-            align-items: center;
-            justify-content: center;
-
-            padding: 8px 0 5px;
-        }
-
-
-        .back-image img {
-
-            width: 100%;
-            height: 100%;
-
-            object-fit: contain;
-
-            display: block;
-        }
-
-        /* ========================================
-        CARD FLIP
-        ======================================== */
-
-        .card-scene {
-            width: 216px;
             aspect-ratio: 5.4 / 9;
 
-            perspective: 1000px;
-
-            margin: 0 auto;
-        }
-
-
-        .card {
-            width: 100%;
-            height: 100%;
-
-            position: relative;
-
-            transform-style: preserve-3d;
-
-            transition:
-                transform 0.65s cubic-bezier(0.4, 0.2, 0.2, 1);
+            perspective: 1200px;
 
             cursor: pointer;
-        }
-
-
-        /* 点击后翻面 */
-
-        .card.flipped {
-            transform: rotateY(180deg);
-        }
-
-
-        /* ========================================
-        FRONT + BACK
-        ======================================== */
-
-        .card-face {
-            position: absolute;
-
-            width: 100%;
-            height: 100%;
-
-            top: 0;
-            left: 0;
-
-            border-radius: 10px;
-
-            overflow: hidden;
-
-            backface-visibility: hidden;
-            -webkit-backface-visibility: hidden;
-
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-
-            box-shadow:
-                0 8px 25px rgba(0, 0, 0, 0.15);
-        }
-
-
-        /* ========================================
-        FRONT
-        ======================================== */
-
-        .card-front {
-
-            background: #ffffff;
-
-            justify-content: center;
-
-            padding: 25px 16px;
-        }
-
-
-        /* ========================================
-        BACK
-        ======================================== */
-
-        .card-back {
-
-            transform: rotateY(180deg);
-
-            justify-content: flex-start;
-
-            padding: 25px 16px 15px;
-
-            background: #ffffff;
-        }
-
-
-        /* ========================================
-        HOLE
-        ======================================== */
-
-        .card-hole {
-
-            position: absolute;
-
-            top: 10px;
-            left: 50%;
-
-            transform: translateX(-50%);
-
-            width: 11px;
-            height: 11px;
-
-            border-radius: 50%;
-
-            background: #eeeeee;
-
-            box-shadow:
-                inset 0 1px 3px rgba(0, 0, 0, 0.25);
-
-            z-index: 5;
-        }
-
-
-        /* ========================================
-        VERSE
-        ======================================== */
-
-        .verse-container {
-
-            width: 100%;
-
-            display: flex;
-            flex-direction: column;
-
-            align-items: center;
-            justify-content: center;
-
-            text-align: center;
-        }
-
-
-        #verse {
-
-            font-family:
-                "ZCOOL KuaiLe",
-                sans-serif;
-
-            font-size: 20px;
-
-            line-height: 1.55;
-
-            color: #4d4036;
-
-            text-align: center;
-
-            word-break: break-word;
-        }
-
-
-        #reference {
-
-            margin-top: 14px;
-
-            font-family:
-                "Nunito",
-                sans-serif;
-
-            font-size: 10px;
-
-            font-weight: 600;
-
-            color: #6d5a4b;
-
-            letter-spacing: 0.5px;
-        }
-
-
-        /* ========================================
-        BACK TITLE
-        ======================================== */
-
-        .back-title {
-
-            margin-top: 10px;
-
-            font-family:
-                "ZCOOL KuaiLe",
-                sans-serif;
-
-            font-size: 20px;
-
-            color: #5d4938;
-
-            letter-spacing: 1px;
-
-            white-space: nowrap;
-        }
-
-
-        /* ========================================
-        BACK IMAGE
-        ======================================== */
-
-        .back-image {
-
-            flex: 1;
-
-            width: 100%;
-
-            display: flex;
-
-            align-items: center;
-            justify-content: center;
-
-            padding: 8px 0 5px;
-        }
-
-
-        .back-image img {
-
-            width: 100%;
-            height: 100%;
-
-            object-fit: contain;
-
-            display: block;
 
             user-select: none;
 
-            pointer-events: none;
+            -webkit-tap-highlight-color:
+                transparent;
+
         }
 
 
-        /* ========================================
-        MOBILE
-        ======================================== */
+        /* ==========================================
+           CARD
+        =========================================== */
 
-        @media (max-width: 500px) {
+        .card {
+
+            width: 100%;
+
+            height: 100%;
+
+            position: relative;
+
+            transform-style: preserve-3d;
+
+            transition:
+                transform 0.7s
+                cubic-bezier(
+                    0.4,
+                    0.2,
+                    0.2,
+                    1
+                );
+
+        }
+
+
+        /* ==========================================
+           FLIPPED
+        =========================================== */
+
+        .card.flipped {
+
+            transform:
+                rotateY(180deg);
+
+        }
+
+
+        /* ==========================================
+           CARD FACE
+        =========================================== */
+
+        .card-face {
+
+            position: absolute;
+
+            inset: 0;
+
+            width: 100%;
+
+            height: 100%;
+
+            border-radius: 14px;
+
+            overflow: hidden;
+
+            backface-visibility: hidden;
+
+            -webkit-backface-visibility: hidden;
+
+            box-shadow:
+                0 12px 30px
+                rgba(
+                    80,
+                    60,
+                    45,
+                    0.18
+                );
+
+        }
+
+
+        /* ==========================================
+           CARD FRONT
+        =========================================== */
+
+        .card-front {
+
+            background: #ffffff;
+
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 35px 28px 30px;
+
+            text-align: center;
+
+        }
+
+
+        /* ==========================================
+           CARD HOLE
+        =========================================== */
+
+        .card-hole {
+
+            position: absolute;
+
+            top: 13px;
+
+            left: 50%;
+
+            transform:
+                translateX(-50%);
+
+            width: 12px;
+
+            height: 12px;
+
+            border-radius: 50%;
+
+            background: #f7f2eb;
+
+            box-shadow:
+                inset
+                0 1px 3px
+                rgba(
+                    0,
+                    0,
+                    0,
+                    0.18
+                );
+
+            z-index: 10;
+
+        }
+
+
+        /* ==========================================
+           VERSE
+        =========================================== */
+
+        .verse {
+
+            width: 100%;
+
+            font-family:
+                "ZCOOL KuaiLe",
+                sans-serif;
+
+            font-size: 21px;
+
+            line-height: 1.7;
+
+            color: #4c4037;
+
+            word-break: break-word;
+
+            overflow-wrap: break-word;
+
+            transition:
+                font-size 0.2s ease;
+
+        }
+
+
+        /* ==========================================
+           REFERENCE
+        =========================================== */
+
+        .reference {
+
+            margin-top: 22px;
+
+            font-family:
+                "ZCOOL KuaiLe",
+                sans-serif;
+
+            font-size: 15px;
+
+            color: #8c7766;
+
+        }
+
+
+        /* ==========================================
+           SMALL DECORATION
+        =========================================== */
+
+        .front-decoration {
+
+            position: absolute;
+
+            left: 50%;
+
+            bottom: 18px;
+
+            transform:
+                translateX(-50%);
+
+            font-size: 11px;
+
+            color: #b5a496;
+
+            letter-spacing: 2px;
+
+        }
+
+
+        /* ==========================================
+           CARD BACK
+        =========================================== */
+
+        .card-back {
+
+            transform:
+                rotateY(180deg);
+
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 30px 20px;
+
+            text-align: center;
+
+        }
+
+
+        /* ==========================================
+           BACK TITLE
+        =========================================== */
+
+        .back-title {
+
+            font-family:
+                "ZCOOL KuaiLe",
+                sans-serif;
+
+            font-size: 22px;
+
+            color: #55483e;
+
+            margin-bottom: 18px;
+
+        }
+
+
+        /* ==========================================
+           IMAGE
+        =========================================== */
+
+        .scene-image {
+
+            width: 100%;
+
+            aspect-ratio: 1 / 1;
+
+            object-fit: cover;
+
+            border-radius: 10px;
+
+            display: block;
+
+            box-shadow:
+                0 5px 15px
+                rgba(
+                    60,
+                    45,
+                    35,
+                    0.12
+                );
+
+        }
+
+
+        /* ==========================================
+           IMAGE ERROR
+        =========================================== */
+
+        .scene-image.error {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background: #eee;
+
+        }
+
+
+        /* ==========================================
+           BACK HINT
+        =========================================== */
+
+        .back-hint {
+
+            margin-top: 18px;
+
+            font-size: 11px;
+
+            color: #8d7c70;
+
+            letter-spacing: 1px;
+
+        }
+
+
+        /* ==========================================
+           PROGRESS
+        =========================================== */
+
+        .progress {
+
+            font-size: 13px;
+
+            color: #8f8177;
+
+            letter-spacing: 1px;
+
+        }
+
+
+        /* ==========================================
+           CONTROL HINT
+        =========================================== */
+
+        .hint {
+
+            text-align: center;
+
+            font-size: 12px;
+
+            color: #a29489;
+
+            line-height: 1.7;
+
+        }
+
+
+        /* ==========================================
+           BUTTONS
+        =========================================== */
+
+        .controls {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 12px;
+
+        }
+
+
+        .control-button {
+
+            width: 42px;
+
+            height: 42px;
+
+            border: none;
+
+            border-radius: 50%;
+
+            background: #ffffff;
+
+            color: #77675b;
+
+            font-size: 18px;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 5px 15px
+                rgba(
+                    80,
+                    60,
+                    45,
+                    0.10
+                );
+
+            transition:
+                transform 0.15s ease,
+                box-shadow 0.15s ease;
+
+        }
+
+
+        .control-button:active {
+
+            transform:
+                scale(0.92);
+
+        }
+
+
+        .control-button:hover {
+
+            box-shadow:
+                0 7px 18px
+                rgba(
+                    80,
+                    60,
+                    45,
+                    0.16
+                );
+
+        }
+
+
+        /* ==========================================
+           MOBILE
+        =========================================== */
+
+        @media (max-width: 480px) {
+
+            body {
+
+                padding:
+                    20px 12px;
+
+                align-items:
+                    flex-start;
+
+            }
+
+
+            .page {
+
+                padding-top: 10px;
+
+            }
+
+
+            .title {
+
+                font-size: 23px;
+
+            }
+
 
             .card-scene {
-                width: min(216px, 60vw);
+
+                width: min(
+                    82vw,
+                    300px
+                );
+
             }
 
         }
+
+
+        /* ==========================================
+           SMALL PHONE
+        =========================================== */
+
+        @media (max-width: 360px) {
+
+            .card-scene {
+
+                width: min(
+                    82vw,
+                    270px
+                );
+
+            }
+
+
+            .card-front {
+
+                padding:
+                    30px 22px 25px;
+
+            }
+
+
+            .verse {
+
+                line-height: 1.6;
+
+            }
+
+        }
+
     </style>
+
 </head>
 
 
 <body>
 
-<div class="container">
 
-    <h1>Bible Card</h1>
+    <!-- ==========================================
+         PAGE
+    =========================================== -->
 
-    <div class="subtitle">
-        Front Preview · 21 Cards
-    </div>
+    <main class="page">
 
 
-    <!-- =========================
-         CARD
-    ========================= -->
+        <!-- TITLE -->
 
-    <div class="card-scene">
+        <h1 class="title">
+            Bible Card
+        </h1>
 
-        <div class="card" id="card">
 
-            <!-- ================= FRONT ================= -->
-            <div class="card-face card-front">
+        <p class="subtitle">
+            一句话，带着神的话语前行
+        </p>
 
-                <div class="card-hole"></div>
 
-                <div class="verse-container">
+        <!-- ==========================================
+             CARD SCENE
+        =========================================== -->
 
-                    <div id="verse">
-                        耶和华是我的牧者，我必不致缺乏。
+        <div
+            class="card-scene"
+            id="cardScene"
+        >
+
+            <div
+                class="card"
+                id="card"
+            >
+
+
+                <!-- ==================================
+                     FRONT
+                =================================== -->
+
+                <div
+                    class="card-face card-front"
+                    id="cardFront"
+                >
+
+
+                    <!-- HOLE -->
+
+                    <div
+                        class="card-hole"
+                    ></div>
+
+
+                    <!-- VERSE -->
+
+                    <div
+                        class="verse"
+                        id="verse"
+                    >
+                        耶和华是我的牧者，
+                        我必不致缺乏。
                     </div>
 
-                    <div id="reference">
+
+                    <!-- REFERENCE -->
+
+                    <div
+                        class="reference"
+                        id="reference"
+                    >
                         诗篇 23:1
                     </div>
 
+
+                    <!-- DECORATION -->
+
+                    <div
+                        class="front-decoration"
+                    >
+                        ✦ ✦ ✦
+                    </div>
+
                 </div>
 
-            </div>
+
+                <!-- ==================================
+                     BACK
+                =================================== -->
+
+                <div
+                    class="card-face card-back"
+                    id="cardBack"
+                >
 
 
-            <!-- ================= BACK ================= -->
-            <div class="card-face card-back">
+                    <!-- HOLE -->
 
-                <div class="card-hole"></div>
+                    <div
+                        class="card-hole"
+                    ></div>
 
-                <div class="back-title">
-                    圣经名场面
-                </div>
 
-                <div class="back-image">
+                    <!-- TITLE -->
+
+                    <div
+                        class="back-title"
+                    >
+                        圣经名场面
+                    </div>
+
+
+                    <!-- IMAGE -->
 
                     <img
                         id="sceneImage"
+                        class="scene-image"
                         src="images/image1.png"
-                        alt="圣经名场面"
+                        alt="Bible Scene"
                     >
+
+
+                    <!-- HINT -->
+
+                    
 
                 </div>
 
@@ -840,521 +781,710 @@
 
         </div>
 
-    </div>
-
-
-    <!-- =========================
-         PROGRESS
-    ========================= -->
-
-    <div class="progress" id="progress">
-        1 / 21
-    </div>
-
-
-    <!-- =========================
-         BUTTONS
-    ========================= -->
-
-    <div class="buttons">
-
-        <button
-            id="prevButton"
-            onclick="previousCard()">
-            ← 上一张
-        </button>
-
-        <button
-            id="nextButton"
-            onclick="nextCard()">
-            下一张 →
-        </button>
-
-    </div>
-
-
-    <button
-        class="next-button"
-        onclick="nextCard()">
-
-        查看下一张卡片
-
-    </button>
-
-</div>
-
-
-<script>
-
-    /* ==========================================
-       BIBLE CARD DATA
-    ========================================== */
-
-    const cards = [
-
-        {
-            id: "001",
-            reference: "诗篇 23:1",
-            text: "耶和华是我的牧者，我必不致缺乏。",
-            theme: "平安",
-            blessing: "愿你在每一天，都经历神的供应与带领。"
-        },
-
-        {
-            id: "002",
-            reference: "耶利米书 29:11",
-            text: "耶和华说：我知道我向你们所怀的意念，是赐平安的意念，不是降灾祸的意念，要叫你们末后有指望。",
-            theme: "盼望",
-            blessing: "愿你相信，神为你的生命预备了美好的道路。"
-        },
-
-        {
-            id: "003",
-            reference: "腓立比书 4:13",
-            text: "我靠着那加给我力量的，凡事都能做。",
-            theme: "力量",
-            blessing: "愿你在软弱的时候，经历从神而来的力量。"
-        },
-
-        {
-            id: "004",
-            reference: "以赛亚书 41:10",
-            text: "你不要害怕，因为我与你同在；不要惊惶，因为我是你的神。我必坚固你，我必帮助你；我必用我公义的右手扶持你。",
-            theme: "勇气",
-            blessing: "愿你无论面对什么，都记得神与你同在。"
-        },
-
-        {
-            id: "005",
-            reference: "约书亚记 1:9",
-            text: "我岂没有吩咐你吗？你当刚强壮胆！不要惧怕，也不要惊惶，因为你无论往哪里去，耶和华你的神必与你同在。",
-            theme: "刚强",
-            blessing: "愿你勇敢踏出每一步，因为神与你同行。"
-        },
-
-        {
-            id: "006",
-            reference: "腓立比书 4:6-7",
-            text: "应当一无挂虑，只要凡事借着祷告、祈求，和感谢，将你们所要的告诉神。神所赐、出人意外的平安，必在基督耶稣里保守你们的心怀意念。",
-            theme: "平安",
-            blessing: "愿你的忧虑成为祷告，并在神里面找到平安。"
-        },
-
-        {
-            id: "007",
-            reference: "诗篇 46:1",
-            text: "神是我们的避难所，是我们的力量，是我们在患难中随时的帮助。",
-            theme: "力量",
-            blessing: "愿你疲惫的时候，记得神是你随时的帮助。"
-        },
-
-        {
-            id: "008",
-            reference: "罗马书 8:28",
-            text: "我们晓得万事都互相效力，叫爱神的人得益处，就是按他旨意被召的人。",
-            theme: "盼望",
-            blessing: "愿你相信，即使现在看不明白，神仍在你生命中工作。"
-        },
-
-        {
-            id: "009",
-            reference: "诗篇 121:1-2",
-            text: "我要向山举目；我的帮助从何而来？我的帮助从造天地的耶和华而来。",
-            theme: "帮助",
-            blessing: "愿你抬头仰望神，因为真正的帮助从祂而来。"
-        },
-
-        {
-            id: "010",
-            reference: "哥林多后书 12:9",
-            text: "他对我说：我的恩典够你用的，因为我的能力是在人的软弱上显得完全。",
-            theme: "恩典",
-            blessing: "愿你在软弱中发现，神的恩典永远够你使用。"
-        },
-
-        {
-            id: "011",
-            reference: "诗篇 34:18",
-            text: "耶和华靠近伤心的人，拯救灵性痛悔的人。",
-            theme: "安慰",
-            blessing: "愿你在伤心的时候知道，你并不是一个人。"
-        },
-
-        {
-            id: "012",
-            reference: "申命记 31:8",
-            text: "耶和华必在你前面行；他必与你同在，必不撇下你，也不丢弃你；不要惧怕，也不要惊惶。",
-            theme: "陪伴",
-            blessing: "愿你面对未知的道路时，知道神已经走在你前面。"
-        },
-
-        {
-            id: "013",
-            reference: "诗篇 37:5",
-            text: "当将你的事交托耶和华，并倚靠他，他就必成全。",
-            theme: "信靠",
-            blessing: "愿你把无法掌控的事交给神，学习安心地信靠祂。"
-        },
-
-        {
-            id: "014",
-            reference: "加拉太书 6:9",
-            text: "我们行善，不可丧志；若不灰心，到了时候就要收成。",
-            theme: "坚持",
-            blessing: "愿你不要因为暂时看不见结果，就放弃正在坚持的美好。"
-        },
-
-        {
-            id: "015",
-            reference: "诗篇 27:1",
-            text: "耶和华是我的亮光，是我的拯救，我还怕谁呢？耶和华是我性命的保障，我还惧谁呢？",
-            theme: "勇气",
-            blessing: "愿神成为你的亮光，使你不被恐惧困住。"
-        },
-
-        {
-            id: "016",
-            reference: "箴言 3:5-6",
-            text: "你要专心仰赖耶和华，不可倚靠自己的聪明，在你一切所行的事上都要认定他，他必指引你的路。",
-            theme: "方向",
-            blessing: "愿你在人生迷惘的时候，愿意把前面的路交给神。"
-        },
-
-        {
-            id: "017",
-            reference: "以赛亚书 40:31",
-            text: "但那等候耶和华的必重新得力。他们必如鹰展翅上腾；他们奔跑却不困倦，行走却不疲乏。",
-            theme: "重新得力",
-            blessing: "愿你疲惫的时候重新得力，在神里面继续向前。"
-        },
-
-        {
-            id: "018",
-            reference: "诗篇 55:22",
-            text: "你要把你的重担卸给耶和华，他必抚养你；他永不叫义人动摇。",
-            theme: "释放",
-            blessing: "愿你不再独自背负重担，把它交托给爱你的神。"
-        },
-
-        {
-            id: "019",
-            reference: "罗马书 15:13",
-            text: "但愿使人有盼望的神，因信将诸般的喜乐、平安充满你们的心，使你们借着圣灵的能力大有盼望。",
-            theme: "盼望",
-            blessing: "愿神把新的盼望放在你心里，让你继续向前。"
-        },
-
-        {
-            id: "020",
-            reference: "诗篇 30:5",
-            text: "一宿虽然有哭泣，早晨便必欢呼。",
-            theme: "新的一天",
-            blessing: "愿你记得，黑夜不会永远持续，新的早晨终会来到。"
-        },
-
-        {
-            id: "021",
-            reference: "哥林多前书 16:13",
-            text: "你们务要警醒，在真道上站立得稳，要作大丈夫，要刚强。",
-            theme: "坚定",
-            blessing: "愿你在任何环境中都站立得稳，勇敢地走自己的路。"
-        }
-
-    ];
-
-
-    /* ==========================================
-       CURRENT CARD
-    ========================================== */
-
-   
-
-
-    /* ==========================================
-       SHOW CARD
-    ========================================== */
-
-    function showCard(index) {
-
-        const card = cards[index];
-
-        const cardElement = document.getElementById("card");
-
-        cardElement.classList.remove(
-            "gradient-1",
-            "gradient-2",
-            "gradient-3"
-        );
-
-        const gradientNumber = index % 3 + 1;
-
-        cardElement.classList.add(
-            "gradient-" + gradientNumber
-        );
-
-        document.getElementById("cardNumber").textContent =
-            "CARD " + card.id;
-
-        document.getElementById("reference").textContent =
-            card.reference;
-
-        document.getElementById("verse").textContent =
-            card.text;
-
-        document.getElementById("theme").textContent =
-            card.theme;
-
-        document.getElementById("blessing").textContent =
-            card.blessing;
-
-        adjustVerseSize();
-
-        document.getElementById("progress").textContent =
-            `${index + 1} / ${cards.length}`;
-
-
-        /* Disable buttons */
-
-        document.getElementById("prevButton").disabled =
-            index === 0;
-
-        document.getElementById("nextButton").disabled =
-            index === cards.length - 1;
-
-
-        /* Change next button text */
+
+        <!-- ==========================================
+             PROGRESS
+        =========================================== -->
+
+        <div
+            class="progress"
+            id="progress"
+        >
+            1 / 21
+        </div>
+
+
+        <!-- ==========================================
+             CONTROLS
+        =========================================== -->
+
+        <div class="controls">
+
+            <button
+                class="control-button"
+                id="previousButton"
+                aria-label="上一张"
+            >
+                ←
+            </button>
+
+
+            <button
+                class="control-button"
+                id="nextButton"
+                aria-label="下一张"
+            >
+                →
+            </button>
+
+        </div>
+
+
+        <!-- ==========================================
+             HINT
+        =========================================== -->
+
+        <div class="hint">
+
+            点击卡片翻面<br>
+
+            ← → 切换卡片 · Space 翻面
+
+        </div>
+
+
+    </main>
+
+
+    <!-- ==========================================
+         JAVASCRIPT
+    =========================================== -->
+
+    <script>
+
+
+        /* ==========================================
+           BIBLE CARDS
+        =========================================== */
+
+        const cards = [
+
+            {
+                id: "001",
+                book: "诗篇",
+                chapter: 23,
+                verse: "1",
+                reference: "诗篇 23:1",
+                text:
+                    "耶和华是我的牧者，我必不致缺乏。",
+                theme: "平安",
+                blessing:
+                    "愿你在每一天，都经历神的供应与带领。"
+            },
+
+            {
+                id: "002",
+                book: "耶利米书",
+                chapter: 29,
+                verse: "11",
+                reference: "耶利米书 29:11",
+                text:
+                    "耶和华说：我知道我向你们所怀的意念，是赐平安的意念，不是降灾祸的意念，要叫你们末后有指望。",
+                theme: "盼望",
+                blessing:
+                    "愿你相信，神为你的生命预备了美好的道路。"
+            },
+
+            {
+                id: "003",
+                book: "腓立比书",
+                chapter: 4,
+                verse: "13",
+                reference: "腓立比书 4:13",
+                text:
+                    "我靠着那加给我力量的，凡事都能做。",
+                theme: "力量",
+                blessing:
+                    "愿你在软弱的时候，经历从神而来的力量。"
+            },
+
+            {
+                id: "004",
+                book: "以赛亚书",
+                chapter: 41,
+                verse: "10",
+                reference: "以赛亚书 41:10",
+                text:
+                    "你不要害怕，因为我与你同在；不要惊惶，因为我是你的神。我必坚固你，我必帮助你；我必用我公义的右手扶持你。",
+                theme: "勇气",
+                blessing:
+                    "愿你无论面对什么，都记得神与你同在。"
+            },
+
+            {
+                id: "005",
+                book: "约书亚记",
+                chapter: 1,
+                verse: "9",
+                reference: "约书亚记 1:9",
+                text:
+                    "我岂没有吩咐你吗？你当刚强壮胆！不要惧怕，也不要惊惶，因为你无论往哪里去，耶和华你的神必与你同在。",
+                theme: "刚强",
+                blessing:
+                    "愿你勇敢踏出每一步，因为神与你同行。"
+            },
+
+            {
+                id: "006",
+                book: "腓立比书",
+                chapter: 4,
+                verse: "6-7",
+                reference: "腓立比书 4:6-7",
+                text:
+                    "应当一无挂虑，只要凡事借着祷告、祈求，和感谢，将你们所要的告诉神。神所赐、出人意外的平安，必在基督耶稣里保守你们的心怀意念。",
+                theme: "平安",
+                blessing:
+                    "愿你的忧虑成为祷告，并在神里面找到平安。"
+            },
+
+            {
+                id: "007",
+                book: "诗篇",
+                chapter: 46,
+                verse: "1",
+                reference: "诗篇 46:1",
+                text:
+                    "神是我们的避难所，是我们的力量，是我们在患难中随时的帮助。",
+                theme: "力量",
+                blessing:
+                    "愿你疲惫的时候，记得神是你随时的帮助。"
+            },
+
+            {
+                id: "008",
+                book: "罗马书",
+                chapter: 8,
+                verse: "28",
+                reference: "罗马书 8:28",
+                text:
+                    "我们晓得万事都互相效力，叫爱神的人得益处，就是按他旨意被召的人。",
+                theme: "盼望",
+                blessing:
+                    "愿你相信，即使现在看不明白，神仍在你生命中工作。"
+            },
+
+            {
+                id: "009",
+                book: "诗篇",
+                chapter: 121,
+                verse: "1-2",
+                reference: "诗篇 121:1-2",
+                text:
+                    "我要向山举目；我的帮助从何而来？我的帮助从造天地的耶和华而来。",
+                theme: "帮助",
+                blessing:
+                    "愿你抬头仰望神，因为真正的帮助从祂而来。"
+            },
+
+            {
+                id: "010",
+                book: "哥林多后书",
+                chapter: 12,
+                verse: "9",
+                reference: "哥林多后书 12:9",
+                text:
+                    "他对我说：我的恩典够你用的，因为我的能力是在人的软弱上显得完全。",
+                theme: "恩典",
+                blessing:
+                    "愿你在软弱中发现，神的恩典永远够你使用。"
+            },
+
+            {
+                id: "011",
+                book: "诗篇",
+                chapter: 34,
+                verse: "18",
+                reference: "诗篇 34:18",
+                text:
+                    "耶和华靠近伤心的人，拯救灵性痛悔的人。",
+                theme: "安慰",
+                blessing:
+                    "愿你在伤心的时候知道，你并不是一个人。"
+            },
+
+            {
+                id: "012",
+                book: "申命记",
+                chapter: 31,
+                verse: "8",
+                reference: "申命记 31:8",
+                text:
+                    "耶和华必在你前面行；他必与你同在，必不撇下你，也不丢弃你；不要惧怕，也不要惊惶。",
+                theme: "陪伴",
+                blessing:
+                    "愿你面对未知的道路时，知道神已经走在你前面。"
+            },
+
+            {
+                id: "013",
+                book: "诗篇",
+                chapter: 37,
+                verse: "5",
+                reference: "诗篇 37:5",
+                text:
+                    "当将你的事交托耶和华，并倚靠他，他就必成全。",
+                theme: "信靠",
+                blessing:
+                    "愿你把无法掌控的事交给神，学习安心地信靠祂。"
+            },
+
+            {
+                id: "014",
+                book: "加拉太书",
+                chapter: 6,
+                verse: "9",
+                reference: "加拉太书 6:9",
+                text:
+                    "我们行善，不可丧志；若不灰心，到了时候就要收成。",
+                theme: "坚持",
+                blessing:
+                    "愿你不要因为暂时看不见结果，就放弃正在坚持的美好。"
+            },
+
+            {
+                id: "015",
+                book: "诗篇",
+                chapter: 27,
+                verse: "1",
+                reference: "诗篇 27:1",
+                text:
+                    "耶和华是我的亮光，是我的拯救，我还怕谁呢？耶和华是我性命的保障，我还惧谁呢？",
+                theme: "勇气",
+                blessing:
+                    "愿神成为你的亮光，使你不被恐惧困住。"
+            },
+
+            {
+                id: "016",
+                book: "箴言",
+                chapter: 3,
+                verse: "5-6",
+                reference: "箴言 3:5-6",
+                text:
+                    "你要专心仰赖耶和华，不可倚靠自己的聪明，在你一切所行的事上都要认定他，他必指引你的路。",
+                theme: "方向",
+                blessing:
+                    "愿你在人生迷惘的时候，愿意把前面的路交给神。"
+            },
+
+            {
+                id: "017",
+                book: "以赛亚书",
+                chapter: 40,
+                verse: "31",
+                reference: "以赛亚书 40:31",
+                text:
+                    "但那等候耶和华的必重新得力。他们必如鹰展翅上腾；他们奔跑却不困倦，行走却不疲乏。",
+                theme: "重新得力",
+                blessing:
+                    "愿你疲惫的时候重新得力，在神里面继续向前。"
+            },
+
+            {
+                id: "018",
+                book: "诗篇",
+                chapter: 55,
+                verse: "22",
+                reference: "诗篇 55:22",
+                text:
+                    "你要把你的重担卸给耶和华，他必抚养你；他永不叫义人动摇。",
+                theme: "释放",
+                blessing:
+                    "愿你不再独自背负重担，把它交托给爱你的神。"
+            },
+
+            {
+                id: "019",
+                book: "罗马书",
+                chapter: 15,
+                verse: "13",
+                reference: "罗马书 15:13",
+                text:
+                    "但愿使人有盼望的神，因信将诸般的喜乐、平安充满你们的心，使你们借着圣灵的能力大有盼望。",
+                theme: "盼望",
+                blessing:
+                    "愿神把新的盼望放在你心里，让你继续向前。"
+            },
+
+            {
+                id: "020",
+                book: "诗篇",
+                chapter: 30,
+                verse: "5",
+                reference: "诗篇 30:5",
+                text:
+                    "一宿虽然有哭泣，早晨便必欢呼。",
+                theme: "新的一天",
+                blessing:
+                    "愿你记得，黑夜不会永远持续，新的早晨终会来到。"
+            },
+
+            {
+                id: "021",
+                book: "哥林多前书",
+                chapter: 16,
+                verse: "13",
+                reference: "哥林多前书 16:13",
+                text:
+                    "你们务要警醒，在真道上站立得稳，要作大丈夫，要刚强。",
+                theme: "坚定",
+                blessing:
+                    "愿你在任何环境中都站立得稳，勇敢地走自己的路。"
+            }
+
+        ];
+
+
+        /* ==========================================
+           CURRENT CARD
+        =========================================== */
+
+        let currentIndex = 0;
+
+
+        /* ==========================================
+           ELEMENTS
+        =========================================== */
+
+        const card =
+            document.getElementById("card");
+
+        const verse =
+            document.getElementById("verse");
+
+        const reference =
+            document.getElementById("reference");
+
+        const sceneImage =
+            document.getElementById("sceneImage");
+
+        const backCard =
+            document.getElementById("cardBack");
+
+        const progress =
+            document.getElementById("progress");
+
+        const previousButton =
+            document.getElementById("previousButton");
 
         const nextButton =
-            document.querySelector(".next-button");
-
-        if (index === cards.length - 1) {
-
-            nextButton.textContent =
-                "已经是最后一张";
-
-            nextButton.disabled = true;
-
-        } else {
-
-            nextButton.textContent =
-                "查看下一张卡片";
-
-            nextButton.disabled = false;
-
-        }
-
-    }
+            document.getElementById("nextButton");
 
 
-    /* ==========================================
-       NEXT
-    ========================================== */
+        /* ==========================================
+           BACKGROUND COLORS
+        =========================================== */
 
-    function nextCard() {
+        const backColors = [
 
-        if (currentIndex < cards.length - 1) {
-
-            currentIndex++;
-
-            showCard(currentIndex);
-
-        }
-
-    }
-
-
-    /* ==========================================
-       PREVIOUS
-    ========================================== */
-
-    function previousCard() {
-
-        if (currentIndex > 0) {
-
-            currentIndex--;
-
-            showCard(currentIndex);
-
-        }
-
-    }
-
-    function adjustVerseSize() {
-
-        const verse = document.getElementById("verse");
-
-        const length = verse.textContent.length;
-
-        let fontSize;
-
-        if (length <= 20) {
-
-            fontSize = 21;
-
-        } else if (length <= 35) {
-
-            fontSize = 19;
-
-        } else if (length <= 50) {
-
-            fontSize = 17;
-
-        } else if (length <= 70) {
-
-            fontSize = 15;
-
-        } else if (length <= 90) {
-
-            fontSize = 13.5;
-
-        } else {
-
-            fontSize = 12;
-        }
-
-        verse.style.fontSize = fontSize + "px";
-    }
-
-
-    function getBackBackground(index) {
-        const backgrounds = [
-            "bg-white",
-            "bg-beige",
-            "bg-grey"
-        ];
-
-        return backgrounds[index % 3];
-    }
-
-    const card = document.getElementById("card");
-
-    card.addEventListener("click", () => {
-
-        card.classList.toggle("flipped");
-
-    });
-
-    let currentIndex = 0;
-
-    
-    const verse = document.getElementById("verse");
-    const reference = document.getElementById("reference");
-    const sceneImage = document.getElementById("sceneImage");
-    const backCard = document.querySelector(".card-back");
-
-
-    function updateCard() {
-
-        const currentCard = cards[currentIndex];
-
-        /* =========================
-        更新经文
-        ========================= */
-
-        verse.textContent = currentCard.text;
-
-        reference.textContent = currentCard.reference;
-
-
-        /* =========================
-        更新背面图片
-        ========================= */
-
-        sceneImage.src =
-            `images/image${currentIndex + 1}.png`;
-
-
-        /* =========================
-        背面颜色
-        ========================= */
-
-        const colors = [
             "#ffffff",
+
             "#f1e4d2",
+
             "#d8d8d8"
+
         ];
 
-        backCard.style.background =
-            colors[currentIndex % 3];
+
+        /* ==========================================
+           SHOW CARD
+        =========================================== */
+
+        function showCard(index) {
+
+            const currentCard =
+                cards[index];
 
 
-        /* =========================
-        每次切换卡片
-        自动回到正面
-        ========================= */
+            /* ------------------------------
+               FRONT
+            ------------------------------ */
 
-        card.classList.remove("flipped");
+            verse.textContent =
+                currentCard.text;
 
-
-        /* =========================
-        调整经文大小
-        ========================= */
-
-        adjustVerseSize();
-    }
+            reference.textContent =
+                currentCard.reference;
 
 
-    function adjustVerseSize() {
+            /* ------------------------------
+               BACK IMAGE
+            ------------------------------ */
 
-        const length =
-            verse.textContent.length;
+            sceneImage.src =
+                `images/image${index + 1}.png`;
 
-        let fontSize;
+            sceneImage.alt =
+                `${currentCard.reference} 圣经名场面`;
 
-        if (length <= 20) {
 
-            fontSize = 21;
+            /* ------------------------------
+            BACKGROUND
+            ------------------------------ */
 
-        } else if (length <= 35) {
+            const cardColor =
+                backColors[index % 3];
 
-            fontSize = 19;
+            document.getElementById("cardFront").style.background =
+                cardColor;
 
-        } else if (length <= 50) {
+            backCard.style.background =
+                cardColor;
 
-            fontSize = 17;
 
-        } else if (length <= 70) {
+            /* ------------------------------
+               PROGRESS
+            ------------------------------ */
 
-            fontSize = 15;
+            progress.textContent =
+                `${index + 1} / ${cards.length}`;
 
-        } else if (length <= 90) {
 
-            fontSize = 13.5;
+            /* ------------------------------
+               ALWAYS SHOW FRONT
+            ------------------------------ */
 
-        } else {
+            card.classList.remove(
+                "flipped"
+            );
 
-            fontSize = 12;
+
+            /* ------------------------------
+               RESIZE VERSE
+            ------------------------------ */
+
+            adjustVerseSize();
+
         }
 
-        verse.style.fontSize =
-            fontSize + "px";
-    }
+
+        /* ==========================================
+           VERSE FONT SIZE
+        =========================================== */
+
+        function adjustVerseSize() {
+
+            const length =
+                verse.textContent.length;
+
+            let fontSize;
 
 
-    /* =========================
-    点击卡片 → Flip
-    ========================= */
+            if (length <= 20) {
 
-    card.addEventListener("click", () => {
+                fontSize = 21;
 
-        card.classList.toggle("flipped");
+            }
 
-    });
+            else if (length <= 35) {
+
+                fontSize = 19;
+
+            }
+
+            else if (length <= 50) {
+
+                fontSize = 17;
+
+            }
+
+            else if (length <= 70) {
+
+                fontSize = 15;
+
+            }
+
+            else if (length <= 90) {
+
+                fontSize = 13.5;
+
+            }
+
+            else {
+
+                fontSize = 12;
+
+            }
 
 
-    /* =========================
-    初始化
-    ========================= */
+            verse.style.fontSize =
+                fontSize + "px";
 
-    updateCard();
-    /* ==========================================
-       INITIALIZE
-    ========================================== */
+        }
 
-    showCard(currentIndex);
 
-</script>
+        /* ==========================================
+           FLIP CARD
+        =========================================== */
+
+        function flipCard() {
+
+            card.classList.toggle(
+                "flipped"
+            );
+
+        }
+
+
+        /* ==========================================
+           NEXT CARD
+        =========================================== */
+
+        function nextCard() {
+
+            if (
+                currentIndex <
+                cards.length - 1
+            ) {
+
+                currentIndex++;
+
+                showCard(
+                    currentIndex
+                );
+
+            }
+
+        }
+
+
+        /* ==========================================
+           PREVIOUS CARD
+        =========================================== */
+
+        function previousCard() {
+
+            if (
+                currentIndex > 0
+            ) {
+
+                currentIndex--;
+
+                showCard(
+                    currentIndex
+                );
+
+            }
+
+        }
+
+
+        /* ==========================================
+           CLICK → FLIP
+        =========================================== */
+
+        card.addEventListener(
+            "click",
+            flipCard
+        );
+
+
+        /* ==========================================
+           PREVIOUS BUTTON
+        =========================================== */
+
+        previousButton.addEventListener(
+            "click",
+            function(event) {
+
+                event.stopPropagation();
+
+                previousCard();
+
+            }
+        );
+
+
+        /* ==========================================
+           NEXT BUTTON
+        =========================================== */
+
+        nextButton.addEventListener(
+            "click",
+            function(event) {
+
+                event.stopPropagation();
+
+                nextCard();
+
+            }
+        );
+
+
+        /* ==========================================
+           KEYBOARD
+        =========================================== */
+
+        document.addEventListener(
+            "keydown",
+            function(event) {
+
+
+                /* --------------------------
+                   SPACE → FLIP
+                -------------------------- */
+
+                if (
+                    event.code === "Space"
+                ) {
+
+                    event.preventDefault();
+
+                    flipCard();
+
+                }
+
+
+                /* --------------------------
+                   RIGHT → NEXT
+                -------------------------- */
+
+                if (
+                    event.code ===
+                    "ArrowRight"
+                ) {
+
+                    nextCard();
+
+                }
+
+
+                /* --------------------------
+                   LEFT → PREVIOUS
+                -------------------------- */
+
+                if (
+                    event.code ===
+                    "ArrowLeft"
+                ) {
+
+                    previousCard();
+
+                }
+
+            }
+        );
+
+
+        /* ==========================================
+           IMAGE ERROR
+        =========================================== */
+
+        sceneImage.addEventListener(
+            "error",
+            function() {
+
+                console.warn(
+                    "Image not found:",
+                    sceneImage.src
+                );
+
+            }
+        );
+
+
+        /* ==========================================
+           INITIALIZE
+        =========================================== */
+
+        showCard(
+            currentIndex
+        );
+
+
+    </script>
+
 
 </body>
+
 </html>
-```
