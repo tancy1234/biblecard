@@ -28,6 +28,9 @@
         rel="stylesheet">
 
 
+    <!-- PDF Export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <!-- ==========================================
          CSS
     =========================================== -->
@@ -672,7 +675,48 @@
             box-sizing: border-box;
         }
 
+        /* ==========================================
+        PDF DOWNLOAD BUTTON
+        ========================================== */
 
+        #downloadPdf {
+            margin-top: 18px;
+
+            padding: 10px 20px;
+
+            border: none;
+            border-radius: 20px;
+
+            background: #6b4528;
+            color: white;
+
+            font-family: "Nunito", sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 4px 10px rgba(0, 0, 0, 0.12);
+
+            transition: 0.2s ease;
+        }
+
+        #downloadPdf:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 6px 14px rgba(0, 0, 0, 0.16);
+        }
+
+        #downloadPdf:active {
+            transform: scale(0.96);
+        }
+
+        #downloadPdf:disabled {
+            opacity: 0.6;
+            cursor: wait;
+        }
     </style>
 
 </head>
@@ -805,6 +849,10 @@
             </div>
 
         </div>
+
+        <button id="downloadPdf">
+            📄 下载 PDF
+        </button>
 
 
         <!-- ==========================================
@@ -1144,7 +1192,7 @@
                     "你们务要警醒，在真道上站立得稳，要作大丈夫，要刚强。",
                 theme: "坚定",
                 blessing:
-                    "愿你在任何环境中都站立得稳，听懂神的话语。"
+                    "愿你常常明白神的话语 在真道上站立得稳。"
             }
 
         ];
@@ -1494,6 +1542,224 @@
         );
 
 
+        /* ==========================================
+        DOWNLOAD CURRENT CARD AS PDF
+        ========================================== */
+
+        const downloadPdf =
+            document.getElementById("downloadPdf");
+
+
+        downloadPdf.addEventListener("click", async () => {
+
+            downloadPdf.disabled = true;
+
+            downloadPdf.textContent =
+                "⏳ 制作 PDF...";
+
+
+            try {
+
+                /* ==========================================
+                GET CURRENT CARD
+                ========================================== */
+
+                const currentCard =
+                    cards[currentIndex];
+
+
+                /* ==========================================
+                PDF
+                ========================================== */
+
+                const { jsPDF } =
+                    window.jspdf;
+
+
+                const pdf =
+                    new jsPDF({
+                        orientation: "portrait",
+                        unit: "mm",
+                        format: [54, 90]
+                    });
+
+
+                /* ==========================================
+                FRONT
+                ========================================== */
+
+                /*
+                * Make sure we are showing the front
+                */
+
+                card.classList.remove("flipped");
+
+
+                /*
+                * Give browser time to render
+                */
+
+                await new Promise(resolve =>
+                    setTimeout(resolve, 300)
+                );
+
+
+                const frontCanvas =
+                    await html2canvas(
+                        frontCard,
+                        {
+                            scale: 4,
+                            useCORS: true,
+                            backgroundColor: null,
+                            logging: false
+                        }
+                    );
+
+
+                const frontImage =
+                    frontCanvas.toDataURL(
+                        "image/png"
+                    );
+
+
+                pdf.addImage(
+                    frontImage,
+                    "PNG",
+                    0,
+                    0,
+                    54,
+                    90
+                );
+
+
+                /* ==========================================
+                BACK
+                ========================================== */
+
+                /*
+                * Temporarily hide front
+                * and make back visible
+                */
+
+                frontCard.style.visibility =
+                    "hidden";
+
+                backCard.style.visibility =
+                    "visible";
+
+                backCard.style.transform =
+                    "none";
+
+
+                await new Promise(resolve =>
+                    setTimeout(resolve, 300)
+                );
+
+
+                const backCanvas =
+                    await html2canvas(
+                        backCard,
+                        {
+                            scale: 4,
+                            useCORS: true,
+                            backgroundColor: null,
+                            logging: false
+                        }
+                    );
+
+
+                const backImage =
+                    backCanvas.toDataURL(
+                        "image/png"
+                    );
+
+
+                /*
+                * New PDF page
+                */
+
+                pdf.addPage(
+                    [54, 90],
+                    "portrait"
+                );
+
+
+                pdf.addImage(
+                    backImage,
+                    "PNG",
+                    0,
+                    0,
+                    54,
+                    90
+                );
+
+
+                /* ==========================================
+                RESTORE CARD
+                ========================================== */
+
+                frontCard.style.visibility =
+                    "";
+
+                backCard.style.visibility =
+                    "";
+
+                backCard.style.transform =
+                    "";
+
+
+                card.classList.remove("flipped");
+
+
+                /* ==========================================
+                DOWNLOAD
+                ========================================== */
+
+                pdf.save(
+                    `BibleCard_${currentCard.id}.pdf`
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    "PDF Export Error:",
+                    error
+                );
+
+                alert(
+                    "PDF 制作失败，请检查 Console。"
+                );
+
+
+                /*
+                * Restore card even if error
+                */
+
+                frontCard.style.visibility =
+                    "";
+
+                backCard.style.visibility =
+                    "";
+
+                backCard.style.transform =
+                    "";
+
+                card.classList.remove("flipped");
+
+            }
+
+
+            /* ==========================================
+            BUTTON
+            ========================================== */
+
+            downloadPdf.disabled = false;
+
+            downloadPdf.textContent =
+                "📄 下载 PDF";
+
+        });
     </script>
 
 
